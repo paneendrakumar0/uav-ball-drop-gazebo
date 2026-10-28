@@ -1,0 +1,167 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <model name="uav_with_ball_drop">
+    <pose>0 0 0.2 0 0 0</pose>
+
+    <!-- UAV Central Airframe & Landing Skids -->
+    <link name="base_link">
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>1.650</mass>
+        <inertia>
+          <ixx>0.0347563</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0458929</iyy>
+          <iyz>0</iyz>
+          <izz>0.0977</izz>
+        </inertia>
+      </inertial>
+
+      <!-- Center Fuselage Visual -->
+      <visual name="fuselage_visual">
+        <geometry>
+          <box>
+            <size>0.24 0.16 0.08</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.15 0.15 0.15 1</ambient>
+          <diffuse>0.2 0.2 0.2 1</diffuse>
+        </material>
+      </visual>
+
+      <collision name="fuselage_collision">
+        <geometry>
+          <box>
+            <size>0.24 0.16 0.08</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!-- 4 Quadrotor Arms -->
+      <visual name="arm_front_right">
+        <pose>0.16 -0.16 0.02 0 0 -0.785398</pose>
+        <geometry>
+          <box>
+            <size>0.30 0.025 0.015</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.2 0.1 1</ambient>
+          <diffuse>0.8 0.2 0.1 1</diffuse>
+        </material>
+      </visual>
+
+      <visual name="arm_front_left">
+        <pose>0.16 0.16 0.02 0 0 0.785398</pose>
+        <geometry>
+          <box>
+            <size>0.30 0.025 0.015</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.2 0.1 1</ambient>
+          <diffuse>0.8 0.2 0.1 1</diffuse>
+        </material>
+      </visual>
+
+      <visual name="arm_back_left">
+        <pose>-0.16 0.16 0.02 0 0 -0.785398</pose>
+        <geometry>
+          <box>
+            <size>0.30 0.025 0.015</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.2 1</ambient>
+          <diffuse>0.2 0.2 0.2 1</diffuse>
+        </material>
+      </visual>
+
+      <visual name="arm_back_right">
+        <pose>-0.16 -0.16 0.02 0 0 0.785398</pose>
+        <geometry>
+          <box>
+            <size>0.30 0.025 0.015</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.2 1</ambient>
+          <diffuse>0.2 0.2 0.2 1</diffuse>
+        </material>
+      </visual>
+
+      <!-- Landing Gear Skids (Tall enough to clear the mechanism) -->
+      <visual name="skid_left">
+        <pose>0 0.14 -0.09 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.010</radius>
+            <length>0.14</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+        </material>
+      </visual>
+
+      <visual name="skid_right">
+        <pose>0 -0.14 -0.09 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.010</radius>
+            <length>0.14</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+        </material>
+      </visual>
+
+      <collision name="skid_left_collision">
+        <pose>0 0.14 -0.09 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.010</radius>
+            <length>0.14</length>
+          </cylinder>
+        </geometry>
+      </collision>
+
+      <collision name="skid_right_collision">
+        <pose>0 -0.14 -0.09 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.010</radius>
+            <length>0.14</length>
+          </cylinder>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Integrated Ball Drop Mechanism Attached to UAV Belly -->
+    <include>
+      <uri>model://uav_ball_drop_mechanism</uri>
+      <name>ball_drop</name>
+      <pose>0 0 -0.04 0 0 0</pose>
+    </include>
+
+    <!-- Rigid Mounting Joint -->
+    <joint name="uav_to_mechanism_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>ball_drop::base_link</child>
+    </joint>
+
+    <!-- UAV Odometry Publisher Plugin for Flight Tracking -->
+    <plugin filename="gz-sim-odometry-publisher-system"
+            name="gz::sim::systems::OdometryPublisher">
+      <odom_frame>odom</odom_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+      <dimensions>3</dimensions>
+    </plugin>
+
+  </model>
+</sdf>

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="uav_ball_drop_mechanism">
+
+  <!-- Base link: Upper mounting plate to UAV chassis -->
+  <link name="ball_drop_base_link">
+    <inertial>
+      <origin xyz="0 0 -0.026" rpy="0 0 0"/>
+      <mass value="0.350"/>
+      <inertia ixx="0.000639" ixy="0.0" ixz="0.0" iyy="0.000639" iyz="0.0" izz="0.001120"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://uav_ball_drop/models/uav_ball_drop_mechanism/meshes/housing.obj" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.026" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.080" length="0.052"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Internal Revolving Carousel -->
+  <link name="ball_drop_carousel_link">
+    <inertial>
+      <origin xyz="0 0 -0.026" rpy="0 0 0"/>
+      <mass value="0.150"/>
+      <inertia ixx="0.000220" ixy="0.0" ixz="0.0" iyy="0.000220" iyz="0.0" izz="0.000380"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://uav_ball_drop/models/uav_ball_drop_mechanism/meshes/rotor.obj" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.026" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.022" length="0.044"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Carousel Revolute Actuator Joint -->
+  <joint name="carousel_joint" type="continuous">
+    <parent link="ball_drop_base_link"/>
+    <child link="ball_drop_carousel_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" velocity="6.28"/>
+    <dynamics damping="0.05" friction="0.02"/>
+  </joint>
+
+  <!-- Drop Aperture Virtual Frame (Exit point for dropped payload balls) -->
+  <link name="ball_drop_exit_frame"/>
+  <joint name="ball_drop_exit_joint" type="fixed">
+    <parent link="ball_drop_base_link"/>
+    <child link="ball_drop_exit_frame"/>
+    <origin xyz="0 0.048 -0.058" rpy="0 0 0"/>
+  </joint>
+
+</robot>

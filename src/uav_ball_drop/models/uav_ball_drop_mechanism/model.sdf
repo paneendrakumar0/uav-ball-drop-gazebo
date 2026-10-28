@@ -1,0 +1,148 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <model name="uav_ball_drop_mechanism">
+    <pose>0 0 0 0 0 0</pose>
+    
+    <!-- Fixed base link: mounts under UAV chassis -->
+    <link name="base_link">
+      <inertial>
+        <pose>0 0 -0.026 0 0 0</pose>
+        <mass>0.350</mass>
+        <inertia>
+          <ixx>0.000639</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.000639</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.001120</izz>
+        </inertia>
+      </inertial>
+      
+      <!-- Visual CAD recreation matching reference photo -->
+      <visual name="housing_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://uav_ball_drop_mechanism/meshes/housing.obj</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <!-- Collision geometry: outer cylinder shell -->
+      <collision name="outer_drum_collision">
+        <pose>0 0 -0.026 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.080</radius>
+            <length>0.052</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.3</mu>
+              <mu2>0.3</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1000000.0</kp>
+              <kd>10.0</kd>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+
+      <!-- Collision: Drone mounting top plate -->
+      <collision name="top_plate_collision">
+        <pose>0 0 -0.002 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.080</radius>
+            <length>0.004</length>
+          </cylinder>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Revolving Carousel Rotor holding ball chambers -->
+    <link name="carousel_rotor">
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 -0.026 0 0 0</pose>
+        <mass>0.150</mass>
+        <inertia>
+          <ixx>0.000220</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.000220</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.000380</izz>
+        </inertia>
+      </inertial>
+      
+      <visual name="rotor_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://uav_ball_drop_mechanism/meshes/rotor.obj</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="rotor_core_collision">
+        <pose>0 0 -0.026 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.022</radius>
+            <length>0.044</length>
+          </cylinder>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Continuous Revolute Joint for Indexing Carousel -->
+    <joint name="carousel_joint" type="revolute">
+      <parent>base_link</parent>
+      <child>carousel_rotor</child>
+      <pose>0 0 0 0 0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e16</lower>
+          <upper>1e16</upper>
+          <effort>10.0</effort>
+          <velocity>6.28</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.05</damping>
+          <friction>0.02</friction>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <!-- Gazebo Sim Joint Position Controller Plugin -->
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>carousel_joint</joint_name>
+      <topic>/ball_drop/carousel_cmd</topic>
+      <p_gain>8.0</p_gain>
+      <i_gain>0.05</i_gain>
+      <d_gain>0.2</d_gain>
+      <i_max>1.0</i_max>
+      <i_min>-1.0</i_min>
+      <cmd_max>5.0</cmd_max>
+      <cmd_min>-5.0</cmd_min>
+    </plugin>
+
+    <!-- Joint State Publisher for ROS 2 Bridge -->
+    <plugin filename="gz-sim-joint-state-publisher-system"
+            name="gz::sim::systems::JointStatePublisher">
+      <joint_name>carousel_joint</joint_name>
+      <topic>/ball_drop/joint_states</topic>
+    </plugin>
+
+  </model>
+</sdf>

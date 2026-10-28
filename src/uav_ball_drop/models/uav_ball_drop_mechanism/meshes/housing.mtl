@@ -1,0 +1,42 @@
+# Material definitions for Ball Drop Mechanism
+newmtl DrumMetal
+Ka 0.22 0.24 0.26
+Kd 0.28 0.30 0.32
+Ks 0.60 0.60 0.60
+Ns 45.0
+d 1.0
+
+newmtl PlateMetal
+Ka 0.70 0.78 0.82
+Kd 0.75 0.82 0.86
+Ks 0.50 0.50 0.55
+Ns 30.0
+d 1.0
+
+newmtl OrangeHub
+Ka 0.88 0.42 0.05
+Kd 0.95 0.48 0.08
+Ks 0.40 0.40 0.40
+Ns 35.0
+d 1.0
+
+newmtl ClampBracket
+Ka 0.15 0.15 0.17
+Kd 0.20 0.20 0.22
+Ks 0.40 0.40 0.40
+Ns 20.0
+d 1.0
+
+newmtl CarouselRotor
+Ka 0.75 0.75 0.78
+Kd 0.82 0.82 0.85
+Ks 0.30 0.30 0.30
+Ns 25.0
+d 1.0
+
+newmtl BallYellow
+Ka 0.95 0.80 0.05
+Kd 0.98 0.85 0.10
+Ks 0.50 0.50 0.50
+Ns 50.0
+d 1.0
