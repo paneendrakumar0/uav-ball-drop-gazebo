@@ -21,10 +21,11 @@ gz sim -s -r "$WORLD_FILE" > /tmp/gz_sim.log 2>&1 &
 GZ_PID=$!
 sleep 3
 
-# Start ros_gz_bridge for carousel control and clock
+# Start ros_gz_bridge for carousel control, clock, and camera pose control
 ros2 run ros_gz_bridge parameter_bridge \
   '/ball_drop/carousel_cmd@std_msgs/msg/Float64]gz.msgs.Double' \
-  '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock' > /tmp/gz_bridge.log 2>&1 &
+  '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock' \
+  '/world/ball_drop_world/set_pose@ros_gz_interfaces/srv/SetEntityPose' > /tmp/gz_bridge.log 2>&1 &
 BRIDGE_PID=$!
 
 # Start ros_gz_image bridge for primary camera stream
@@ -56,7 +57,7 @@ trap cleanup EXIT
 echo "Waiting for camera and drop services to stabilize..."
 sleep 3
 
-echo "Recording clean simulation (11 seconds)..."
+echo "Recording cinematic simulation (22s: 11s wide view + drone flight glide + close-up drops)..."
 /home/paneendra/opencv-learning/.venv/bin/python \
   "$WORKSPACE_DIR/src/uav_ball_drop/scripts/record_simulation.py" "$RAW_VIDEO"
 

@@ -21,6 +21,10 @@
     0.024
   ],
   "radial_accuracy_mm": 0.0,
-  "drops_completed": 3,
+  "total_drops_executed": 5,
+  "wide_overview_drops": 3,
+  "closeup_inspection_drops": 2,
+  "cinematic_flight_duration_s": 3.5,
+  "total_video_duration_s": 22.0,
   "all_drops_landed_on_bullseye": true
 }
