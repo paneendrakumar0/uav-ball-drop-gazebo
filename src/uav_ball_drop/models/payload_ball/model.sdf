@@ -5,7 +5,7 @@
     <link name="ball_link">
       <inertial>
         <mass>0.045</mass>
-        <!-- Sphere inertia I = 2/5 * m * r^2 = 0.4 * 0.045 * 0.02^2 = 7.2e-6 -->
+        <!-- Solid sphere: I = 2/5 * m * r^2 = 0.4 * 0.045 * 0.0004 = 7.2e-6 kg*m^2 -->
         <inertia>
           <ixx>0.0000072</ixx>
           <ixy>0.0</ixy>
@@ -18,15 +18,14 @@
 
       <visual name="ball_visual">
         <geometry>
-          <mesh>
-            <uri>model://payload_ball/meshes/ball.obj</uri>
-            <scale>1 1 1</scale>
-          </mesh>
+          <sphere>
+            <radius>0.020</radius>
+          </sphere>
         </geometry>
         <material>
-          <ambient>1.0 0.84 0.0 1.0</ambient>
-          <diffuse>1.0 0.84 0.0 1.0</diffuse>
-          <specular>0.5 0.5 0.5 1.0</specular>
+          <ambient>1.0 0.48 0.05 1.0</ambient>
+          <diffuse>1.0 0.48 0.05 1.0</diffuse>
+          <specular>0.6 0.6 0.6 1.0</specular>
         </material>
       </visual>
 
@@ -38,19 +37,19 @@
         </geometry>
         <surface>
           <bounce>
-            <restitution_coefficient>0.7</restitution_coefficient>
+            <restitution_coefficient>0.72</restitution_coefficient>
             <threshold>0.01</threshold>
           </bounce>
           <friction>
             <ode>
-              <mu>0.4</mu>
-              <mu2>0.4</mu2>
+              <mu>0.5</mu>
+              <mu2>0.5</mu2>
             </ode>
           </friction>
           <contact>
             <ode>
-              <kp>100000.0</kp>
-              <kd>1.0</kd>
+              <kp>500000.0</kp>
+              <kd>20.0</kd>
             </ode>
           </contact>
         </surface>

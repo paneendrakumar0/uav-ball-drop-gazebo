@@ -1,32 +1,38 @@
 <?xml version="1.0" ?>
 <sdf version="1.9">
   <world name="ball_drop_world">
-    <physics name="1ms" type="ignored">
+    <!-- Rigorous 1ms DART Physics Configuration -->
+    <physics name="dart_1ms" type="ignored">
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1.0</real_time_factor>
     </physics>
 
-    <!-- Sim Plugins -->
+    <!-- Required Gazebo Plugins -->
     <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
     <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
     <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
     <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
-    
-    <!-- Sensor System with OGRE2 Rendering -->
     <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
       <render_engine>ogre2</render_engine>
     </plugin>
 
-    <!-- Sunlight -->
-    <light type="directional" name="sun">
+    <!-- Balanced Studio Lighting -->
+    <light type="directional" name="key_light">
       <cast_shadows>true</cast_shadows>
-      <pose>0 0 15 0 0 0</pose>
-      <diffuse>0.95 0.95 0.95 1</diffuse>
-      <specular>0.4 0.4 0.4 1</specular>
-      <direction>-0.4 0.2 -0.9</direction>
+      <pose>2 -2 6 0 0 0</pose>
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <specular>0.3 0.3 0.3 1</specular>
+      <direction>-0.3 0.3 -0.9</direction>
+    </light>
+    
+    <light type="directional" name="fill_light">
+      <cast_shadows>false</cast_shadows>
+      <pose>-2 2 4 0 0 0</pose>
+      <diffuse>0.4 0.4 0.45 1</diffuse>
+      <direction>0.3 -0.3 -0.8</direction>
     </light>
 
-    <!-- Ground Plane -->
+    <!-- Clean Floor -->
     <model name="ground_plane">
       <static>true</static>
       <link name="link">
@@ -34,62 +40,72 @@
           <geometry>
             <plane>
               <normal>0 0 1</normal>
-              <size>100 100</size>
+              <size>50 50</size>
             </plane>
           </geometry>
           <surface>
             <friction>
               <ode>
-                <mu>1.0</mu>
-                <mu2>1.0</mu2>
+                <mu>0.8</mu>
+                <mu2>0.8</mu2>
               </ode>
             </friction>
+            <contact>
+              <ode>
+                <kp>500000.0</kp>
+                <kd>50.0</kd>
+              </ode>
+            </contact>
+            <bounce>
+              <restitution_coefficient>0.72</restitution_coefficient>
+              <threshold>0.01</threshold>
+            </bounce>
           </surface>
         </collision>
         <visual name="visual">
           <geometry>
             <plane>
               <normal>0 0 1</normal>
-              <size>100 100</size>
+              <size>50 50</size>
             </plane>
           </geometry>
           <material>
-            <ambient>0.72 0.75 0.78 1</ambient>
-            <diffuse>0.72 0.75 0.78 1</diffuse>
+            <ambient>0.85 0.87 0.90 1</ambient>
+            <diffuse>0.85 0.87 0.90 1</diffuse>
           </material>
         </visual>
       </link>
     </model>
 
-    <!-- Bullseye Drop Target on the Ground -->
+    <!-- Concentric Precision Bullseye Target -->
     <model name="drop_target">
       <static>true</static>
-      <pose>0 0.048 0.001 0 0 0</pose>
+      <pose>0 0.048 0.0005 0 0 0</pose>
       
-      <!-- Outer Red Ring (Radius 1.0 m) -->
+      <!-- Outer Ring (Radius 0.75 m) -->
       <link name="outer_ring">
         <visual name="outer_visual">
           <geometry>
             <cylinder>
-              <radius>1.0</radius>
-              <length>0.002</length>
+              <radius>0.75</radius>
+              <length>0.001</length>
             </cylinder>
           </geometry>
           <material>
-            <ambient>0.85 0.15 0.15 1</ambient>
-            <diffuse>0.85 0.15 0.15 1</diffuse>
+            <ambient>0.85 0.20 0.20 1</ambient>
+            <diffuse>0.85 0.20 0.20 1</diffuse>
           </material>
         </visual>
       </link>
 
-      <!-- Middle White Ring (Radius 0.6 m) -->
-      <link name="middle_ring">
-        <pose>0 0 0.001 0 0 0</pose>
+      <!-- Middle Ring (Radius 0.50 m) -->
+      <link name="mid_ring">
+        <pose>0 0 0.0005 0 0 0</pose>
         <visual name="mid_visual">
           <geometry>
             <cylinder>
-              <radius>0.6</radius>
-              <length>0.002</length>
+              <radius>0.50</radius>
+              <length>0.001</length>
             </cylinder>
           </geometry>
           <material>
@@ -99,89 +115,113 @@
         </visual>
       </link>
 
-      <!-- Inner Bullseye (Radius 0.25 m) -->
-      <link name="bullseye">
-        <pose>0 0 0.002 0 0 0</pose>
-        <visual name="center_visual">
+      <!-- Inner Ring (Radius 0.25 m) -->
+      <link name="inner_ring">
+        <pose>0 0 0.0010 0 0 0</pose>
+        <visual name="inner_visual">
           <geometry>
             <cylinder>
               <radius>0.25</radius>
-              <length>0.002</length>
+              <length>0.001</length>
             </cylinder>
           </geometry>
           <material>
-            <ambient>0.85 0.15 0.15 1</ambient>
-            <diffuse>0.85 0.15 0.15 1</diffuse>
+            <ambient>0.85 0.20 0.20 1</ambient>
+            <diffuse>0.85 0.20 0.20 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <!-- Center Bullseye Disc (Radius 0.08 m) -->
+      <link name="center_disc">
+        <pose>0 0 0.0015 0 0 0</pose>
+        <visual name="center_visual">
+          <geometry>
+            <cylinder>
+              <radius>0.08</radius>
+              <length>0.001</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.95 0.85 0.10 1</ambient>
+            <diffuse>0.95 0.85 0.10 1</diffuse>
           </material>
         </visual>
       </link>
     </model>
 
-    <!-- Test Stand Rig at 2.5m Altitude -->
-    <model name="test_stand">
+    <!-- Minimalist Drone Carbon Fiber Payload Rails (Altitude: 1.80m) -->
+    <model name="uav_payload_rails">
       <static>true</static>
-      <pose>0 0 2.5 0 0 0</pose>
-      <!-- Base Crossbar Structure -->
-      <link name="stand_rig">
-        <visual name="crossbar">
-          <pose>0 0 0.015 0 0 0</pose>
+      <pose>0 0 1.80 0 0 0</pose>
+      <link name="rails_link">
+        <!-- Rail 1 -->
+        <visual name="rail_1">
+          <pose>0 0.08 0.015 0 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.006</radius>
+              <length>0.36</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.15 0.15 0.15 1</ambient>
+            <diffuse>0.2 0.2 0.2 1</diffuse>
+          </material>
+        </visual>
+        <!-- Rail 2 -->
+        <visual name="rail_2">
+          <pose>0 -0.08 0.015 0 1.5708 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.006</radius>
+              <length>0.36</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.15 0.15 0.15 1</ambient>
+            <diffuse>0.2 0.2 0.2 1</diffuse>
+          </material>
+        </visual>
+        <!-- Mounting Crossplate -->
+        <visual name="crossplate">
+          <pose>0 0 0.008 0 0 0</pose>
           <geometry>
             <box>
-              <size>0.32 0.32 0.03</size>
+              <size>0.18 0.18 0.006</size>
             </box>
           </geometry>
           <material>
-            <ambient>0.25 0.28 0.32 1</ambient>
-            <diffuse>0.25 0.28 0.32 1</diffuse>
-          </material>
-        </visual>
-        
-        <!-- Vertical Rig Pillars for Visual Context -->
-        <visual name="pillar_left">
-          <pose>-0.25 0 -1.25 0 0 0</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.02</radius>
-              <length>2.5</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0.3 0.3 0.35 1</ambient>
-            <diffuse>0.3 0.3 0.35 1</diffuse>
-          </material>
-        </visual>
-        <visual name="pillar_right">
-          <pose>0.25 0 -1.25 0 0 0</pose>
-          <geometry>
-            <cylinder>
-              <radius>0.02</radius>
-              <length>2.5</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0.3 0.3 0.35 1</ambient>
-            <diffuse>0.3 0.3 0.35 1</diffuse>
+            <ambient>0.2 0.2 0.22 1</ambient>
+            <diffuse>0.25 0.25 0.28 1</diffuse>
           </material>
         </visual>
       </link>
     </model>
 
-    <!-- High-Definition Overview Camera: Full Corridor Frame -->
-    <model name="observer_camera_model">
+    <!-- Ball Drop Mechanism Mounted Directly Under the Rails -->
+    <include>
+      <uri>model://uav_ball_drop_mechanism</uri>
+      <name>uav_ball_drop_mechanism</name>
+      <pose>0 0 1.80 0 0 0</pose>
+    </include>
+
+    <!-- Primary Camera: High-Clarity Trajectory & Mechanism Framing with 3D Depth -->
+    <model name="camera_model">
       <static>true</static>
-      <!-- Placed at x=0.6, y=-2.6, z=1.35 pointing at center (0, 0, 1.25) -->
-      <pose>0.6 -2.6 1.35 0 0.02 1.80</pose>
+      <!-- Isometric perspective with 3D depth, comfortable headroom, and full ground target -->
+      <pose>0.60 -2.30 1.05 0 -0.02 1.84</pose>
       <link name="camera_link">
-        <sensor name="observer_camera" type="camera">
+        <sensor name="camera" type="camera">
           <camera>
-            <horizontal_fov>1.35</horizontal_fov>
+            <horizontal_fov>1.25</horizontal_fov>
             <image>
               <width>1280</width>
               <height>720</height>
             </image>
             <clip>
               <near>0.1</near>
-              <far>50</far>
+              <far>30</far>
             </clip>
           </camera>
           <always_on>1</always_on>
@@ -190,38 +230,6 @@
         </sensor>
       </link>
     </model>
-
-    <!-- Close-Up Camera Focused directly on the Mechanism Drum and Aperture -->
-    <model name="closeup_camera_model">
-      <static>true</static>
-      <!-- Placed directly in front of the drum looking slightly up at the aperture and hub -->
-      <pose>0.0 -0.28 2.34 0 -0.36 1.5708</pose>
-      <link name="closeup_link">
-        <sensor name="closeup_camera" type="camera">
-          <camera>
-            <horizontal_fov>0.85</horizontal_fov>
-            <image>
-              <width>640</width>
-              <height>480</height>
-            </image>
-            <clip>
-              <near>0.02</near>
-              <far>10</far>
-            </clip>
-          </camera>
-          <always_on>1</always_on>
-          <update_rate>30</update_rate>
-          <topic>/camera_closeup/image</topic>
-        </sensor>
-      </link>
-    </model>
-
-    <!-- Ball Drop Mechanism Instance Mounted on the Test Stand -->
-    <include>
-      <uri>model://uav_ball_drop_mechanism</uri>
-      <name>uav_ball_drop_mechanism</name>
-      <pose>0 0 2.5 0 0 0</pose>
-    </include>
 
   </world>
 </sdf>
