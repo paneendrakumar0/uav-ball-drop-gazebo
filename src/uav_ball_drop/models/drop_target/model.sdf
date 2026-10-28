@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <model name="drop_target">
+    <static>true</static>
+    <pose>0 0 0 0 0 0</pose>
+    <link name="target_link">
+      <visual name="target_visual">
+        <geometry>
+          <mesh>
+            <uri>model://drop_target/meshes/target_pad.obj</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="target_collision">
+        <pose>0 0 0.002 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.6 1.6 0.004</size>
+          </box>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.8</mu>
+              <mu2>0.8</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>500000.0</kp>
+              <kd>50.0</kd>
+            </ode>
+          </contact>
+          <bounce>
+            <restitution_coefficient>0.72</restitution_coefficient>
+            <threshold>0.01</threshold>
+          </bounce>
+        </surface>
+      </collision>
+    </link>
+  </model>
+</sdf>

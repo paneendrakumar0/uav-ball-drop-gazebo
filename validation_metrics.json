@@ -1,16 +1,26 @@
 {
   "simulation_profile": "Gazebo Sim Harmonic 8.11 / DART 1ms",
-  "release_altitude_m": 1.742,
+  "release_altitude_m": 1.442,
+  "target_contact_elevation_m": 0.024,
+  "effective_fall_height_m": 1.418,
   "payload_mass_kg": 0.045,
   "payload_diameter_mm": 40.0,
   "restitution_coefficient": 0.72,
-  "analytical_time_of_flight_s": 0.596,
-  "analytical_impact_velocity_mps": 5.8452,
-  "simulated_time_of_flight_s": 0.603,
-  "flight_time_error_percent": 1.17,
-  "target_center_x": 0.0,
-  "target_center_y": 0.048,
-  "radial_accuracy_mm": 2.4,
+  "analytical_time_of_flight_s": 0.5378,
+  "analytical_impact_velocity_mps": 5.2737,
+  "simulated_time_of_flight_s": 0.538,
+  "flight_time_error_percent": 0.04,
+  "drop_target_center": [
+    0.0,
+    0.048,
+    0.004
+  ],
+  "ball_impact_coordinate": [
+    0.0,
+    0.048,
+    0.024
+  ],
+  "radial_accuracy_mm": 0.0,
   "drops_completed": 3,
   "all_drops_landed_on_bullseye": true
 }

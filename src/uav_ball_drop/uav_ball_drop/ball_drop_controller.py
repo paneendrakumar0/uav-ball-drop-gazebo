@@ -26,7 +26,7 @@ class BallDropController(Node):
         self.declare_parameter('ball_model_sdf', '')
         self.declare_parameter('aperture_radial_offset', 0.048) # 48 mm from drum center
         self.declare_parameter('aperture_z_offset', -0.058)      # 58 mm below drone mounting plane
-        self.declare_parameter('mechanism_pose_z', 1.80)        # Default altitude: 1.80m
+        self.declare_parameter('mechanism_pose_z', 1.50)        # Calibrated altitude: 1.50m
         
         self.total_chambers = self.get_parameter('total_chambers').value
         self.world_name = self.get_parameter('world_name').value

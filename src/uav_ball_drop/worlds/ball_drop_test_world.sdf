@@ -16,23 +16,23 @@
       <render_engine>ogre2</render_engine>
     </plugin>
 
-    <!-- Balanced Studio Lighting -->
+    <!-- Studio Lighting -->
     <light type="directional" name="key_light">
       <cast_shadows>true</cast_shadows>
-      <pose>2 -2 6 0 0 0</pose>
-      <diffuse>0.9 0.9 0.9 1</diffuse>
-      <specular>0.3 0.3 0.3 1</specular>
-      <direction>-0.3 0.3 -0.9</direction>
+      <pose>2 -2 5 0 0 0</pose>
+      <diffuse>0.82 0.82 0.82 1</diffuse>
+      <specular>0.10 0.10 0.10 1</specular>
+      <direction>-0.35 0.35 -0.87</direction>
     </light>
     
     <light type="directional" name="fill_light">
       <cast_shadows>false</cast_shadows>
-      <pose>-2 2 4 0 0 0</pose>
-      <diffuse>0.4 0.4 0.45 1</diffuse>
-      <direction>0.3 -0.3 -0.8</direction>
+      <pose>-2 2 3 0 0 0</pose>
+      <diffuse>0.35 0.35 0.40 1</diffuse>
+      <direction>0.35 -0.35 -0.87</direction>
     </light>
 
-    <!-- Clean Floor -->
+    <!-- Professional Slate Testing Floor for High Target Contrast -->
     <model name="ground_plane">
       <static>true</static>
       <link name="link">
@@ -70,90 +70,24 @@
             </plane>
           </geometry>
           <material>
-            <ambient>0.85 0.87 0.90 1</ambient>
-            <diffuse>0.85 0.87 0.90 1</diffuse>
+            <ambient>0.22 0.24 0.26 1</ambient>
+            <diffuse>0.26 0.28 0.30 1</diffuse>
           </material>
         </visual>
       </link>
     </model>
 
-    <!-- Concentric Precision Bullseye Target -->
-    <model name="drop_target">
-      <static>true</static>
-      <pose>0 0.048 0.0005 0 0 0</pose>
-      
-      <!-- Outer Ring (Radius 0.75 m) -->
-      <link name="outer_ring">
-        <visual name="outer_visual">
-          <geometry>
-            <cylinder>
-              <radius>0.75</radius>
-              <length>0.001</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0.85 0.20 0.20 1</ambient>
-            <diffuse>0.85 0.20 0.20 1</diffuse>
-          </material>
-        </visual>
-      </link>
+    <!-- High-Resolution Precision Target Pad Model -->
+    <include>
+      <uri>model://drop_target</uri>
+      <name>drop_target</name>
+      <pose>0 0.048 0 0 0 0</pose>
+    </include>
 
-      <!-- Middle Ring (Radius 0.50 m) -->
-      <link name="mid_ring">
-        <pose>0 0 0.0005 0 0 0</pose>
-        <visual name="mid_visual">
-          <geometry>
-            <cylinder>
-              <radius>0.50</radius>
-              <length>0.001</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0.95 0.95 0.95 1</ambient>
-            <diffuse>0.95 0.95 0.95 1</diffuse>
-          </material>
-        </visual>
-      </link>
-
-      <!-- Inner Ring (Radius 0.25 m) -->
-      <link name="inner_ring">
-        <pose>0 0 0.0010 0 0 0</pose>
-        <visual name="inner_visual">
-          <geometry>
-            <cylinder>
-              <radius>0.25</radius>
-              <length>0.001</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0.85 0.20 0.20 1</ambient>
-            <diffuse>0.85 0.20 0.20 1</diffuse>
-          </material>
-        </visual>
-      </link>
-
-      <!-- Center Bullseye Disc (Radius 0.08 m) -->
-      <link name="center_disc">
-        <pose>0 0 0.0015 0 0 0</pose>
-        <visual name="center_visual">
-          <geometry>
-            <cylinder>
-              <radius>0.08</radius>
-              <length>0.001</length>
-            </cylinder>
-          </geometry>
-          <material>
-            <ambient>0.95 0.85 0.10 1</ambient>
-            <diffuse>0.95 0.85 0.10 1</diffuse>
-          </material>
-        </visual>
-      </link>
-    </model>
-
-    <!-- Minimalist Drone Carbon Fiber Payload Rails (Altitude: 1.80m) -->
+    <!-- Minimalist Drone Carbon Fiber Payload Rails (Altitude: 1.50m) -->
     <model name="uav_payload_rails">
       <static>true</static>
-      <pose>0 0 1.80 0 0 0</pose>
+      <pose>0 0 1.50 0 0 0</pose>
       <link name="rails_link">
         <!-- Rail 1 -->
         <visual name="rail_1">
@@ -183,7 +117,7 @@
             <diffuse>0.2 0.2 0.2 1</diffuse>
           </material>
         </visual>
-        <!-- Mounting Crossplate -->
+        <!-- Mounting Plate -->
         <visual name="crossplate">
           <pose>0 0 0.008 0 0 0</pose>
           <geometry>
@@ -203,18 +137,18 @@
     <include>
       <uri>model://uav_ball_drop_mechanism</uri>
       <name>uav_ball_drop_mechanism</name>
-      <pose>0 0 1.80 0 0 0</pose>
+      <pose>0 0 1.50 0 0 0</pose>
     </include>
 
-    <!-- Primary Camera: High-Clarity Trajectory & Mechanism Framing with 3D Depth -->
+    <!-- Primary Camera: Calibrated 3D Isometric Vantage Framing -->
     <model name="camera_model">
       <static>true</static>
-      <!-- Isometric perspective with 3D depth, comfortable headroom, and full ground target -->
-      <pose>0.60 -2.30 1.05 0 -0.02 1.84</pose>
+      <!-- Perfectly centered: mechanism in upper third, full bullseye in lower half with margins -->
+      <pose>2.157 -2.109 2.100 0.000 0.497 2.356</pose>
       <link name="camera_link">
         <sensor name="camera" type="camera">
           <camera>
-            <horizontal_fov>1.25</horizontal_fov>
+            <horizontal_fov>1.2392</horizontal_fov>
             <image>
               <width>1280</width>
               <height>720</height>

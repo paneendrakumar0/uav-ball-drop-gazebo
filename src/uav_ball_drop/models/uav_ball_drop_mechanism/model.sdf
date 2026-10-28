@@ -5,6 +5,7 @@
     
     <!-- Fixed base link: mounts under UAV chassis -->
     <link name="base_link">
+      <gravity>false</gravity>
       <inertial>
         <pose>0 0 -0.026 0 0 0</pose>
         <mass>0.350</mass>
@@ -143,6 +144,12 @@
       <joint_name>carousel_joint</joint_name>
       <topic>/ball_drop/joint_states</topic>
     </plugin>
+
+    <!-- Firm mount to world frame -->
+    <joint name="world_mount_joint" type="fixed">
+      <parent>world</parent>
+      <child>base_link</child>
+    </joint>
 
   </model>
 </sdf>

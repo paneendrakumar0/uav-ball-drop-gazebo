@@ -35,7 +35,7 @@ IMAGE_BRIDGE_PID=$!
 ros2 run uav_ball_drop ball_drop_controller --ros-args \
   -p world_name:=ball_drop_world \
   -p total_chambers:=6 \
-  -p mechanism_pose_z:=1.80 > /tmp/ball_drop_controller.log 2>&1 &
+  -p mechanism_pose_z:=1.50 > /tmp/ball_drop_controller.log 2>&1 &
 NODE_PID=$!
 
 cleanup() {

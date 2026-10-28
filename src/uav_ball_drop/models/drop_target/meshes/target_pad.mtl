@@ -1,0 +1,12 @@
+# Target Material
+newmtl TargetTexture
+Ka 0.6 0.6 0.6
+Kd 0.8 0.8 0.8
+Ks 0.0 0.0 0.0
+Ns 5.0
+map_Kd target_bullseye.png
+
+newmtl BorderMat
+Ka 0.15 0.15 0.15
+Kd 0.20 0.20 0.20
+Ks 0.0 0.0 0.0
