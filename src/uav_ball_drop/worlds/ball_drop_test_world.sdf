@@ -6,22 +6,27 @@
       <real_time_factor>1.0</real_time_factor>
     </physics>
 
-    <!-- Required Sim Plugins -->
+    <!-- Sim Plugins -->
     <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
     <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
     <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
     <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+    
+    <!-- Sensor System with OGRE2 Rendering -->
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
 
     <!-- Sunlight -->
     <light type="directional" name="sun">
       <cast_shadows>true</cast_shadows>
       <pose>0 0 15 0 0 0</pose>
-      <diffuse>0.9 0.9 0.9 1</diffuse>
-      <specular>0.3 0.3 0.3 1</specular>
-      <direction>-0.5 0.1 -0.9</direction>
+      <diffuse>0.95 0.95 0.95 1</diffuse>
+      <specular>0.4 0.4 0.4 1</specular>
+      <direction>-0.4 0.2 -0.9</direction>
     </light>
 
-    <!-- Ground Plane with Precision Drop Target -->
+    <!-- Ground Plane -->
     <model name="ground_plane">
       <static>true</static>
       <link name="link">
@@ -49,14 +54,14 @@
             </plane>
           </geometry>
           <material>
-            <ambient>0.8 0.8 0.8 1</ambient>
-            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <ambient>0.72 0.75 0.78 1</ambient>
+            <diffuse>0.72 0.75 0.78 1</diffuse>
           </material>
         </visual>
       </link>
     </model>
 
-    <!-- Bullseye Drop Target (Droniada Competition Style) on the Ground -->
+    <!-- Bullseye Drop Target on the Ground -->
     <model name="drop_target">
       <static>true</static>
       <pose>0 0.048 0.001 0 0 0</pose>
@@ -71,8 +76,8 @@
             </cylinder>
           </geometry>
           <material>
-            <ambient>0.9 0.1 0.1 1</ambient>
-            <diffuse>0.9 0.1 0.1 1</diffuse>
+            <ambient>0.85 0.15 0.15 1</ambient>
+            <diffuse>0.85 0.15 0.15 1</diffuse>
           </material>
         </visual>
       </link>
@@ -105,30 +110,109 @@
             </cylinder>
           </geometry>
           <material>
-            <ambient>0.9 0.1 0.1 1</ambient>
-            <diffuse>0.9 0.1 0.1 1</diffuse>
+            <ambient>0.85 0.15 0.15 1</ambient>
+            <diffuse>0.85 0.15 0.15 1</diffuse>
           </material>
         </visual>
       </link>
     </model>
 
-    <!-- Test Stand / Rig Suspending the Mechanism at 2.5m Altitude -->
+    <!-- Test Stand Rig at 2.5m Altitude -->
     <model name="test_stand">
       <static>true</static>
       <pose>0 0 2.5 0 0 0</pose>
+      <!-- Base Crossbar Structure -->
       <link name="stand_rig">
         <visual name="crossbar">
-          <pose>0 0 0.01 0 0 0</pose>
+          <pose>0 0 0.015 0 0 0</pose>
           <geometry>
             <box>
-              <size>0.25 0.25 0.02</size>
+              <size>0.32 0.32 0.03</size>
             </box>
+          </geometry>
+          <material>
+            <ambient>0.25 0.28 0.32 1</ambient>
+            <diffuse>0.25 0.28 0.32 1</diffuse>
+          </material>
+        </visual>
+        
+        <!-- Vertical Rig Pillars for Visual Context -->
+        <visual name="pillar_left">
+          <pose>-0.25 0 -1.25 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.02</radius>
+              <length>2.5</length>
+            </cylinder>
           </geometry>
           <material>
             <ambient>0.3 0.3 0.35 1</ambient>
             <diffuse>0.3 0.3 0.35 1</diffuse>
           </material>
         </visual>
+        <visual name="pillar_right">
+          <pose>0.25 0 -1.25 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.02</radius>
+              <length>2.5</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.3 0.3 0.35 1</ambient>
+            <diffuse>0.3 0.3 0.35 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- High-Definition Overview Camera: Full Corridor Frame -->
+    <model name="observer_camera_model">
+      <static>true</static>
+      <!-- Placed at x=0.6, y=-2.6, z=1.35 pointing at center (0, 0, 1.25) -->
+      <pose>0.6 -2.6 1.35 0 0.02 1.80</pose>
+      <link name="camera_link">
+        <sensor name="observer_camera" type="camera">
+          <camera>
+            <horizontal_fov>1.35</horizontal_fov>
+            <image>
+              <width>1280</width>
+              <height>720</height>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>50</far>
+            </clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>30</update_rate>
+          <topic>/camera/image</topic>
+        </sensor>
+      </link>
+    </model>
+
+    <!-- Close-Up Camera Focused directly on the Mechanism Drum and Aperture -->
+    <model name="closeup_camera_model">
+      <static>true</static>
+      <!-- Placed directly in front of the drum looking slightly up at the aperture and hub -->
+      <pose>0.0 -0.28 2.34 0 -0.36 1.5708</pose>
+      <link name="closeup_link">
+        <sensor name="closeup_camera" type="camera">
+          <camera>
+            <horizontal_fov>0.85</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>10</far>
+            </clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>30</update_rate>
+          <topic>/camera_closeup/image</topic>
+        </sensor>
       </link>
     </model>
 
