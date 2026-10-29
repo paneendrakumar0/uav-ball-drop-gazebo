@@ -2,6 +2,15 @@
 
 A high-fidelity simulation model, mechanical CAD recreation, and autonomous drop controller for an aerial robotics ball drop mechanism. Developed for autonomous target drop missions (inspired by **AGH Embedded Vision Systems Group / Avader UAV** research initiatives and precision competitions).
 
+<p align="center">
+  <img src="docs/media/uav_flight_drop_demo.gif" width="48%" alt="Airborne UAV Flight Drop Demo" />
+  <img src="docs/media/bench_ball_drop_demo.gif" width="48%" alt="Bench Drop Mechanism & Cinematic Inspection Demo" />
+</p>
+<p align="center">
+  <em>Left: Airborne UAV Autonomous Flight, Precision Hover & Mid-Air Drop Mission (Video 2)</em><br/>
+  <em>Right: Bench Rig Physical Validation & Cinematic Dropper Inspection (Video 1)</em>
+</p>
+
 ---
 
 ## 1. Overview & Mechanical Design
@@ -147,9 +156,10 @@ $$v_{\text{impact}} = \sqrt{2gh} \approx 5.2737\text{ m/s}$$
 
 ---
 
-## 6. Video Demonstrations
+## 6. Video Demonstrations & Animated Previews
 
 ### Video 1: Bench Mechanism Physical Validation & Inspection (`ball_drop_simulation_recording.mp4`)
+![Bench Drop Demo](docs/media/bench_ball_drop_demo.gif)
 * **Duration**: 22.0 seconds (1280x720 @ 30 FPS, H.264)
 * **Phase 1 (0–11s)**: Wide isometric arena view showing 3 sequential drops landing on the target bullseye.
 * **Phase 2 & 3 (11–18s)**: Smooth autonomous drone camera glide into an ultra-close inspection angle right beneath the mechanism, followed by close-up drop actuation.
@@ -157,6 +167,7 @@ $$v_{\text{impact}} = \sqrt{2gh} \approx 5.2737\text{ m/s}$$
 * **Run command**: `./run_and_record.sh`
 
 ### Video 2: Airborne UAV Autonomous Flight & Drop Mission (`uav_flight_drop_recording.mp4`)
+![Airborne UAV Drop Demo](docs/media/uav_flight_drop_demo.gif)
 * **Duration**: 16.0 seconds (1280x720 @ 30 FPS, H.264)
 * **Phase 1 (0–4.5s)**: Ingress flight of the full quadrotor drone gliding smoothly into stable hover directly over the bullseye target.
 * **Phase 2 (4.5–10.5s)**: High-precision mid-air drops released while hovering at 1.55m altitude, clustering onto the bullseye mat. Camera performs a dynamic push-in framing both drone and target.
