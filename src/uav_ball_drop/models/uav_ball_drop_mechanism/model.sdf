@@ -145,11 +145,5 @@
       <topic>/ball_drop/joint_states</topic>
     </plugin>
 
-    <!-- Firm mount to world frame -->
-    <joint name="world_mount_joint" type="fixed">
-      <parent>world</parent>
-      <child>base_link</child>
-    </joint>
-
   </model>
 </sdf>

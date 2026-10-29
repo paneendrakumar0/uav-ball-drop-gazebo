@@ -4,21 +4,21 @@
     <pose>0 0 0.2 0 0 0</pose>
 
     <!-- UAV Central Airframe & Landing Skids -->
-    <link name="base_link">
+    <link name="uav_fuselage">
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>1.650</mass>
+        <mass>1.850</mass>
         <inertia>
-          <ixx>0.0347563</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.0458929</iyy>
-          <iyz>0</iyz>
-          <izz>0.0977</izz>
+          <ixx>0.045</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.045</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.075</izz>
         </inertia>
       </inertial>
 
-      <!-- Center Fuselage Visual -->
+      <!-- Center Fuselage Visual (Carbon/Matte Black) -->
       <visual name="fuselage_visual">
         <geometry>
           <box>
@@ -26,8 +26,24 @@
           </box>
         </geometry>
         <material>
-          <ambient>0.15 0.15 0.15 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
+          <ambient>0.12 0.12 0.14 1</ambient>
+          <diffuse>0.18 0.18 0.20 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+        </material>
+      </visual>
+
+      <!-- Top Avionics Dome / GNSS Antenna -->
+      <visual name="gnss_dome">
+        <pose>0 0 0.055 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.035</radius>
+            <length>0.025</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.85 0.85 0.85 1</ambient>
+          <diffuse>0.90 0.90 0.90 1</diffuse>
         </material>
       </visual>
 
@@ -39,71 +55,188 @@
         </geometry>
       </collision>
 
-      <!-- 4 Quadrotor Arms -->
+      <!-- 4 High-Strength Carbon Fiber Quadrotor Arms -->
+      <!-- Arm 1: Front-Right (Orange accent) -->
       <visual name="arm_front_right">
-        <pose>0.16 -0.16 0.02 0 0 -0.785398</pose>
+        <pose>0.14 -0.14 0.02 0 0 -0.785398</pose>
         <geometry>
           <box>
-            <size>0.30 0.025 0.015</size>
+            <size>0.28 0.024 0.016</size>
           </box>
         </geometry>
         <material>
-          <ambient>0.8 0.2 0.1 1</ambient>
-          <diffuse>0.8 0.2 0.1 1</diffuse>
+          <ambient>0.88 0.42 0.05 1</ambient>
+          <diffuse>0.95 0.48 0.08 1</diffuse>
         </material>
       </visual>
 
+      <!-- Arm 2: Front-Left (Orange accent) -->
       <visual name="arm_front_left">
-        <pose>0.16 0.16 0.02 0 0 0.785398</pose>
+        <pose>0.14 0.14 0.02 0 0 0.785398</pose>
         <geometry>
           <box>
-            <size>0.30 0.025 0.015</size>
+            <size>0.28 0.024 0.016</size>
           </box>
         </geometry>
         <material>
-          <ambient>0.8 0.2 0.1 1</ambient>
-          <diffuse>0.8 0.2 0.1 1</diffuse>
+          <ambient>0.88 0.42 0.05 1</ambient>
+          <diffuse>0.95 0.48 0.08 1</diffuse>
         </material>
       </visual>
 
+      <!-- Arm 3: Back-Left (Dark Carbon) -->
       <visual name="arm_back_left">
-        <pose>-0.16 0.16 0.02 0 0 -0.785398</pose>
+        <pose>-0.14 0.14 0.02 0 0 -0.785398</pose>
         <geometry>
           <box>
-            <size>0.30 0.025 0.015</size>
+            <size>0.28 0.024 0.016</size>
           </box>
         </geometry>
         <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
+          <ambient>0.15 0.15 0.15 1</ambient>
+          <diffuse>0.22 0.22 0.22 1</diffuse>
         </material>
       </visual>
 
+      <!-- Arm 4: Back-Right (Dark Carbon) -->
       <visual name="arm_back_right">
-        <pose>-0.16 -0.16 0.02 0 0 0.785398</pose>
+        <pose>-0.14 -0.14 0.02 0 0 0.785398</pose>
         <geometry>
           <box>
-            <size>0.30 0.025 0.015</size>
+            <size>0.28 0.024 0.016</size>
           </box>
         </geometry>
         <material>
-          <ambient>0.2 0.2 0.2 1</ambient>
-          <diffuse>0.2 0.2 0.2 1</diffuse>
+          <ambient>0.15 0.15 0.15 1</ambient>
+          <diffuse>0.22 0.22 0.22 1</diffuse>
         </material>
       </visual>
 
-      <!-- Landing Gear Skids (Tall enough to clear the mechanism) -->
-      <visual name="skid_left">
-        <pose>0 0.14 -0.09 0 0 0</pose>
+      <!-- 4 Brushless Motor Mounts & Spinning Rotor Discs -->
+      <!-- Motor 1 (Front Right) -->
+      <visual name="motor_fr">
+        <pose>0.22 -0.22 0.035 0 0 0</pose>
         <geometry>
           <cylinder>
-            <radius>0.010</radius>
-            <length>0.14</length>
+            <radius>0.016</radius>
+            <length>0.024</length>
           </cylinder>
         </geometry>
         <material>
           <ambient>0.1 0.1 0.1 1</ambient>
-          <diffuse>0.1 0.1 0.1 1</diffuse>
+          <diffuse>0.15 0.15 0.15 1</diffuse>
+        </material>
+      </visual>
+      <visual name="rotor_fr">
+        <pose>0.22 -0.22 0.050 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.130</radius>
+            <length>0.004</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.25 0.6</ambient>
+          <diffuse>0.3 0.3 0.35 0.6</diffuse>
+        </material>
+      </visual>
+
+      <!-- Motor 2 (Front Left) -->
+      <visual name="motor_fl">
+        <pose>0.22 0.22 0.035 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.016</radius>
+            <length>0.024</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.15 0.15 0.15 1</diffuse>
+        </material>
+      </visual>
+      <visual name="rotor_fl">
+        <pose>0.22 0.22 0.050 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.130</radius>
+            <length>0.004</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.25 0.6</ambient>
+          <diffuse>0.3 0.3 0.35 0.6</diffuse>
+        </material>
+      </visual>
+
+      <!-- Motor 3 (Back Left) -->
+      <visual name="motor_bl">
+        <pose>-0.22 0.22 0.035 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.016</radius>
+            <length>0.024</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.15 0.15 0.15 1</diffuse>
+        </material>
+      </visual>
+      <visual name="rotor_bl">
+        <pose>-0.22 0.22 0.050 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.130</radius>
+            <length>0.004</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.25 0.6</ambient>
+          <diffuse>0.3 0.3 0.35 0.6</diffuse>
+        </material>
+      </visual>
+
+      <!-- Motor 4 (Back Right) -->
+      <visual name="motor_br">
+        <pose>-0.22 -0.22 0.035 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.016</radius>
+            <length>0.024</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.1 0.1 0.1 1</ambient>
+          <diffuse>0.15 0.15 0.15 1</diffuse>
+        </material>
+      </visual>
+      <visual name="rotor_br">
+        <pose>-0.22 -0.22 0.050 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.130</radius>
+            <length>0.004</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.2 0.2 0.25 0.6</ambient>
+          <diffuse>0.3 0.3 0.35 0.6</diffuse>
+        </material>
+      </visual>
+
+      <!-- Landing Gear Skids (Tall enough to clear the mechanism on the ground) -->
+      <visual name="skid_left">
+        <pose>0 0.14 -0.09 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.008</radius>
+            <length>0.14</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.12 0.12 0.12 1</ambient>
+          <diffuse>0.18 0.18 0.18 1</diffuse>
         </material>
       </visual>
 
@@ -111,13 +244,13 @@
         <pose>0 -0.14 -0.09 0 0 0</pose>
         <geometry>
           <cylinder>
-            <radius>0.010</radius>
+            <radius>0.008</radius>
             <length>0.14</length>
           </cylinder>
         </geometry>
         <material>
-          <ambient>0.1 0.1 0.1 1</ambient>
-          <diffuse>0.1 0.1 0.1 1</diffuse>
+          <ambient>0.12 0.12 0.12 1</ambient>
+          <diffuse>0.18 0.18 0.18 1</diffuse>
         </material>
       </visual>
 
@@ -125,7 +258,7 @@
         <pose>0 0.14 -0.09 0 0 0</pose>
         <geometry>
           <cylinder>
-            <radius>0.010</radius>
+            <radius>0.008</radius>
             <length>0.14</length>
           </cylinder>
         </geometry>
@@ -135,23 +268,23 @@
         <pose>0 -0.14 -0.09 0 0 0</pose>
         <geometry>
           <cylinder>
-            <radius>0.010</radius>
+            <radius>0.008</radius>
             <length>0.14</length>
           </cylinder>
         </geometry>
       </collision>
     </link>
 
-    <!-- Integrated Ball Drop Mechanism Attached to UAV Belly -->
+    <!-- Integrated Ball Drop Mechanism Attached Underneath UAV Belly -->
     <include>
       <uri>model://uav_ball_drop_mechanism</uri>
       <name>ball_drop</name>
       <pose>0 0 -0.04 0 0 0</pose>
     </include>
 
-    <!-- Rigid Mounting Joint -->
+    <!-- Rigid Mounting Joint to UAV Frame -->
     <joint name="uav_to_mechanism_joint" type="fixed">
-      <parent>base_link</parent>
+      <parent>uav_fuselage</parent>
       <child>ball_drop::base_link</child>
     </joint>
 
@@ -159,8 +292,14 @@
     <plugin filename="gz-sim-odometry-publisher-system"
             name="gz::sim::systems::OdometryPublisher">
       <odom_frame>odom</odom_frame>
-      <robot_base_frame>base_link</robot_base_frame>
+      <robot_base_frame>uav_fuselage</robot_base_frame>
       <dimensions>3</dimensions>
+    </plugin>
+
+    <!-- Velocity Control Plugin for Autonomous Flight Trajectories -->
+    <plugin filename="gz-sim-velocity-control-system"
+            name="gz::sim::systems::VelocityControl">
+      <topic>/uav/cmd_vel</topic>
     </plugin>
 
   </model>

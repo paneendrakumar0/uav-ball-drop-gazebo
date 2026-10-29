@@ -140,6 +140,12 @@
       <pose>0 0 1.50 0 0 0</pose>
     </include>
 
+    <!-- Anchor Mechanism Base to Rails -->
+    <joint name="rails_to_mechanism_joint" type="fixed">
+      <parent>uav_payload_rails::rails_link</parent>
+      <child>uav_ball_drop_mechanism::base_link</child>
+    </joint>
+
     <!-- Primary Camera: Calibrated 3D Isometric Vantage Framing -->
     <model name="camera_model">
       <static>true</static>
